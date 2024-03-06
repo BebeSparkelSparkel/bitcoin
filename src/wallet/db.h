@@ -16,6 +16,8 @@
 #include <optional>
 #include <string>
 
+#include <sqlite3.h>
+
 class ArgsManager;
 struct bilingual_str;
 
@@ -185,6 +187,7 @@ struct DatabaseOptions {
     std::optional<DatabaseFormat> require_format;
     uint64_t create_flags = 0;
     SecureString create_passphrase;
+    int permissions = SQLITE_OPEN_READONLY; // does not account for BERKLEY Database
 
     // Specialized options. Not every option is supported by every backend.
     bool verify = true;             //!< Check data integrity on load.

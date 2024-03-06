@@ -141,6 +141,7 @@ bool ExecuteWalletToolFunc(const ArgsManager& args, const std::string& command)
         DatabaseOptions options;
         ReadDatabaseArgs(args, options);
         options.require_create = true;
+        options.permissions = SQLITE_OPEN_FULLMUTEX | SQLITE_OPEN_CREATE;
         // If -legacy is set, use it. Otherwise default to false.
         bool make_legacy = args.GetBoolArg("-legacy", false);
         // If neither -legacy nor -descriptors is set, default to true. If -descriptors is set, use its value.
@@ -172,6 +173,7 @@ bool ExecuteWalletToolFunc(const ArgsManager& args, const std::string& command)
         WalletShowInfo(wallet_instance.get());
         wallet_instance->Close();
     } else if (command == "salvage") {
+        // not sure if salvage requires write permissions
 #ifdef USE_BDB
         bilingual_str error;
         std::vector<bilingual_str> warnings;
